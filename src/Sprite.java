@@ -93,7 +93,7 @@ public class Sprite {
      */
     public void setPic(String fileName, int orientation) {
         try {
-            pic = ImageIO.read(new File("WAM/res/" + fileName));
+            pic = ImageIO.read(new File("Res/" + fileName));
             picOrientation = orientation;
         } catch (Exception e) {
             e.printStackTrace();
@@ -107,6 +107,14 @@ public class Sprite {
      */
     public void rotateBy(int delta) {
         setDir(dir + delta);
+    }
+    public int getDirection(Point from, Point to){
+        double dx = to.x - from.x;
+        double dy = from.y - to.y;
+        int deg =  (int)Math.toDegrees(Math.atan(dy/dx));
+        if(to.x < from.x)
+            deg += 180;
+        return deg;
     }
 
     /**
