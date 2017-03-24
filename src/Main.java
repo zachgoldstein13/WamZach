@@ -21,6 +21,7 @@ public class Main extends JPanel{
     private Color red = new Color(255, 30, 26);
     private int z=0;
     private ArrayList<Sprite> ships = new ArrayList<Sprite>();
+    private ArrayList<Sprite> asteroids = new ArrayList<Sprite>();
 //    private boolean boost;
 
     private int menuLevel=1;
@@ -269,6 +270,13 @@ public class Main extends JPanel{
             //can be g2.fillRect(0,0,1000,600);
             g2.fillRect(0,0,1200,800);
             ship.draw(g2);
+
+            asteroids = new ArrayList();
+
+            asteroids.add(new Asteroid(500,50));
+            for (Sprite a: asteroids) {
+                a.draw(g2);
+            }
         }
         if(menu){
             if(menuLevel==1) {
@@ -326,6 +334,8 @@ public class Main extends JPanel{
                     for (Sprite s: ships) {
                         s.draw(g2);
                     }
+
+
 
                 }
             }

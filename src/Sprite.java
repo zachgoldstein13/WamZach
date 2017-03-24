@@ -93,7 +93,7 @@ public class Sprite {
      */
     public void setPic(String fileName, int orientation) {
         try {
-            pic = ImageIO.read(new File("WAM/res/" + fileName));
+            pic = ImageIO.read(new File("Res/" + fileName));
             picOrientation = orientation;
         } catch (Exception e) {
             e.printStackTrace();
