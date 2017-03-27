@@ -38,12 +38,17 @@ public class Main extends JPanel{
 
 
         asteroids = new ArrayList();
+        for (int r = 0; r < 800; r+=80) {
+            for (int c = 0; c < 1200; c+=120) {
+                asteroids.add(new Asteroid(r,c));
+            }
 
-        int rand = (int)(Math.random()*3);
-        asteroids.add(new Asteroid(500,50, rand));
-        asteroids.add(new Asteroid(50,500, rand));
-        asteroids.add(new Asteroid(300,300, rand));
-        chasers.add(new Chaser(0,0,new Point((int)(Math.random()*1000),(int)(Math.random()*600)),ship));
+        }
+//        int rand = (int)(Math.random()*3);
+//        asteroids.add(new Asteroid(500,50, rand));
+//        asteroids.add(new Asteroid(50,500, rand));
+//        asteroids.add(new Asteroid(300,300, rand));
+       chasers.add(new Chaser(0,0,new Point((int)(Math.random()*1000),(int)(Math.random()*600)),ship));
 
         timer = new Timer(40, new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
