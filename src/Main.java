@@ -23,6 +23,8 @@ public class Main extends JPanel{
     private ArrayList<Sprite> ships = new ArrayList<Sprite>();
     private ArrayList<Sprite> asteroids = new ArrayList<Sprite>();
     private ArrayList<Chaser> chasers = new ArrayList<Chaser>();
+    private ArrayList<Missle> missles = new ArrayList<Missle>();
+
 
 //    private boolean boost;
 
@@ -51,6 +53,14 @@ public class Main extends JPanel{
 
                     for (Sprite x: chasers){
                         x.update();
+                    }
+                    for (Sprite x: chasers){
+                        if(x.getSpeed()==0){
+                            int rand= (int)(Math.random()*100);
+                            if(rand<2){
+                                missles.add(new Missle(x.getLoc().x,x.getLoc().y, ship));
+                            }
+                        }
                     }
                 }
                 if(w){
@@ -102,6 +112,9 @@ public class Main extends JPanel{
 
 
                 for (Sprite a: asteroids) {
+                    a.update();
+                }
+                for (Sprite a: missles) {
                     a.update();
                 }
                 ship.update();
@@ -296,6 +309,9 @@ public class Main extends JPanel{
             }
 
             for (Sprite a: asteroids) {
+                a.draw(g2);
+            }
+            for (Sprite a: missles) {
                 a.draw(g2);
             }
         }
