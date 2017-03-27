@@ -35,10 +35,26 @@ public class Main extends JPanel{
 
         asteroids = new ArrayList();
 
-        int rand = (int)(Math.random()*3);
-        asteroids.add(new Asteroid(500,50, rand));
-        asteroids.add(new Asteroid(50,500, rand));
-        asteroids.add(new Asteroid(300,300, rand));
+
+        for (int r = 0; r < 800; r+=80) {
+            for (int c = 0; c < 1200; c+=120) {
+                asteroids.add(new Asteroid(r,c));
+            }
+
+        }
+
+//        asteroids.add(new Asteroid(0,0));
+//        asteroids.add(new Asteroid(0,0));
+//        asteroids.add(new Asteroid(1200,0));
+//        asteroids.add(new Asteroid(1200,0));
+//        asteroids.add(new Asteroid(1200,0));
+//        asteroids.add(new Asteroid(0,800));
+//        asteroids.add(new Asteroid(0,800));
+//        asteroids.add(new Asteroid(0,800));
+//        asteroids.add(new Asteroid(1200,800));
+//        asteroids.add(new Asteroid(1200,800));
+//        asteroids.add(new Asteroid(1200,800));
+
 
         timer = new Timer(40, new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
