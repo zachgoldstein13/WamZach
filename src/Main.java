@@ -22,6 +22,8 @@ public class Main extends JPanel{
     private int z=0;
     private ArrayList<Sprite> ships = new ArrayList<Sprite>();
     private ArrayList<Sprite> asteroids = new ArrayList<Sprite>();
+    private ArrayList<Chaser> chasers = new ArrayList<Chaser>();
+
 //    private boolean boost;
 
     private int menuLevel=1;
@@ -39,12 +41,17 @@ public class Main extends JPanel{
         asteroids.add(new Asteroid(500,50, rand));
         asteroids.add(new Asteroid(50,500, rand));
         asteroids.add(new Asteroid(300,300, rand));
+        chasers.add(new Chaser(0,0,new Point((int)(Math.random()*1000),(int)(Math.random()*600)),ship));
 
         timer = new Timer(40, new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
                 if (!menu) {
                     menuLevel = 0;
                     ship.update();
+
+                    for (Sprite x: chasers){
+                        x.update();
+                    }
                 }
                 if(w){
                     ship.setLoc(new Point(ship.getLoc().x, ship.getLoc().y - shipSpeed));
@@ -278,12 +285,15 @@ public class Main extends JPanel{
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
         if(!menu){
+
             g2.setColor(black);
 
             //can be g2.fillRect(0,0,1000,600);
             g2.fillRect(0,0,1200,800);
             ship.draw(g2);
-
+            for (Sprite x: chasers){
+                x.draw(g2);
+            }
 
             for (Sprite a: asteroids) {
                 a.draw(g2);
