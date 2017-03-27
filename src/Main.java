@@ -22,6 +22,10 @@ public class Main extends JPanel{
     private int z=0;
     private ArrayList<Sprite> ships = new ArrayList<Sprite>();
     private ArrayList<Sprite> asteroids = new ArrayList<Sprite>();
+    private ArrayList<Chaser> chasers = new ArrayList<Chaser>();
+    private ArrayList<Missle> missles = new ArrayList<Missle>();
+
+
 //    private boolean boost;
 
     private int menuLevel=1;
@@ -35,32 +39,29 @@ public class Main extends JPanel{
 
         asteroids = new ArrayList();
 
-
-        for (int r = 0; r < 800; r+=80) {
-            for (int c = 0; c < 1200; c+=120) {
-                asteroids.add(new Asteroid(r,c));
-            }
-
-        }
-
-//        asteroids.add(new Asteroid(0,0));
-//        asteroids.add(new Asteroid(0,0));
-//        asteroids.add(new Asteroid(1200,0));
-//        asteroids.add(new Asteroid(1200,0));
-//        asteroids.add(new Asteroid(1200,0));
-//        asteroids.add(new Asteroid(0,800));
-//        asteroids.add(new Asteroid(0,800));
-//        asteroids.add(new Asteroid(0,800));
-//        asteroids.add(new Asteroid(1200,800));
-//        asteroids.add(new Asteroid(1200,800));
-//        asteroids.add(new Asteroid(1200,800));
-
+        int rand = (int)(Math.random()*3);
+        asteroids.add(new Asteroid(500,50, rand));
+        asteroids.add(new Asteroid(50,500, rand));
+        asteroids.add(new Asteroid(300,300, rand));
+        chasers.add(new Chaser(0,0,new Point((int)(Math.random()*1000),(int)(Math.random()*600)),ship));
 
         timer = new Timer(40, new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
                 if (!menu) {
                     menuLevel = 0;
                     ship.update();
+
+                    for (Sprite x: chasers){
+                        x.update();
+                    }
+                    for (Sprite x: chasers){
+                        if(x.getSpeed()==0){
+                            int rand= (int)(Math.random()*100);
+                            if(rand<2){
+                                missles.add(new Missle(x.getLoc().x,x.getLoc().y, ship));
+                            }
+                        }
+                    }
                 }
                 if(w){
                     ship.setLoc(new Point(ship.getLoc().x, ship.getLoc().y - shipSpeed));
@@ -111,6 +112,9 @@ public class Main extends JPanel{
 
 
                 for (Sprite a: asteroids) {
+                    a.update();
+                }
+                for (Sprite a: missles) {
                     a.update();
                 }
                 ship.update();
@@ -294,14 +298,20 @@ public class Main extends JPanel{
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
         if(!menu){
+
             g2.setColor(black);
 
             //can be g2.fillRect(0,0,1000,600);
             g2.fillRect(0,0,1200,800);
             ship.draw(g2);
-
+            for (Sprite x: chasers){
+                x.draw(g2);
+            }
 
             for (Sprite a: asteroids) {
+                a.draw(g2);
+            }
+            for (Sprite a: missles) {
                 a.draw(g2);
             }
         }
