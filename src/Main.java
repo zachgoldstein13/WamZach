@@ -32,6 +32,14 @@ public class Main extends JPanel{
 
     public Main() {
 
+
+        asteroids = new ArrayList();
+
+        int rand = (int)(Math.random()*3);
+        asteroids.add(new Asteroid(500,50, rand));
+        asteroids.add(new Asteroid(50,500, rand));
+        asteroids.add(new Asteroid(300,300, rand));
+
         timer = new Timer(40, new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
                 if (!menu) {
@@ -85,6 +93,10 @@ public class Main extends JPanel{
                     ship.setDir(Sprite.SOUTH);
                 }
 
+
+                for (Sprite a: asteroids) {
+                    a.update();
+                }
                 ship.update();
                 repaint();
             }
@@ -236,6 +248,7 @@ public class Main extends JPanel{
                     }
 
 
+
                 }
 
 
@@ -271,9 +284,7 @@ public class Main extends JPanel{
             g2.fillRect(0,0,1200,800);
             ship.draw(g2);
 
-            asteroids = new ArrayList();
 
-            asteroids.add(new Asteroid(500,50));
             for (Sprite a: asteroids) {
                 a.draw(g2);
             }

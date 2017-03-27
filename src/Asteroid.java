@@ -7,12 +7,10 @@ public class Asteroid extends Sprite {
 
     private int spin;
 
-    public Asteroid(int x, int y){
+    //add int spin
+    public Asteroid(int x, int y, int rand){
         super(x,y,NORTH);
         this.spin=spin;
-
-
-        int rand = (int)(Math.random()*3);
 
         if (rand ==0){
             this.setPic("A1.png", NORTH);
@@ -23,13 +21,13 @@ public class Asteroid extends Sprite {
         if (rand ==2){
             this.setPic("A3.png", NORTH);
         }
-        System.out.println(rand);
 
     }
 
     public void update(){
 
 
+        super.update();
     }
 
     @Override

@@ -23,6 +23,6 @@ public class Chaser extends Sprite {
             this.setSpeed(0);
         }
 
-        super.update();
+
     }
 }
