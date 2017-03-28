@@ -6,6 +6,8 @@ import java.awt.*;
 public class Chaser extends Sprite {
     private Point rall;
     private boolean there=true;
+
+    private int count;
     Sprite targ;
     public Chaser(int x, int y, Point rally,Sprite target){
         super(NORTH,x,y);
@@ -32,4 +34,5 @@ public class Chaser extends Sprite {
 
 
     }
+
 }
