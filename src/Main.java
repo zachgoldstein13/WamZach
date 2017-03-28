@@ -20,6 +20,7 @@ public class Main extends JPanel{
     private Color white = new Color(255,255,255);
     private Color red = new Color(255, 30, 26);
     private int z=0;
+    private int health=100;
     private ArrayList<Sprite> ships = new ArrayList<Sprite>();
     private ArrayList<Sprite> asteroids = new ArrayList<Sprite>();
     private ArrayList<Chaser> chasers = new ArrayList<Chaser>();
@@ -49,6 +50,7 @@ public class Main extends JPanel{
 //        asteroids.add(new Asteroid(50,500, rand));
 //        asteroids.add(new Asteroid(300,300, rand));
        chasers.add(new Chaser(0,0,new Point((int)(Math.random()*1000),(int)(Math.random()*600)),ship));
+        chasers.add(new Chaser(0,0,new Point((int)(Math.random()*1000),(int)(Math.random()*600)),ship));
 
         timer = new Timer(40, new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
@@ -63,7 +65,7 @@ public class Main extends JPanel{
                         if(x.getSpeed()==0){
                             int rand= (int)(Math.random()*100);
                             if(rand<2){
-                                missles.add(new Missle(x.getLoc().x,x.getLoc().y, ship));
+                                missles.add(new Missle(x.getLoc().x,x.getLoc().y, ship, x));
                             }
                         }
                     }
@@ -113,7 +115,7 @@ public class Main extends JPanel{
                 if(s&&a&&d){
                     ship.setLoc(new Point(ship.getLoc().x, ship.getLoc().y));
                     ship.setDir(Sprite.SOUTH);
-                }
+                }//ship movement
 
 
                 for (Sprite a: asteroids) {
@@ -121,6 +123,38 @@ public class Main extends JPanel{
                 }
                 for (Sprite a: missles) {
                     a.update();
+                }
+//                for (Sprite b: missles){
+//                    if(b.intersects(ship)){
+//                        health= health-10;
+//                        missles.remove(b.getID());
+//                    }
+//                    for (Sprite a: chasers){
+//                        if(b.intersects(a)){
+//                            missles.remove(b.getID());
+//                            chasers.remove(a.getID());
+//                        }
+//                    }
+//                }
+                for (int i = 0; i < missles.size(); i++) {
+                    if(ship.intersects(missles.get(i))){
+                        health= health-10;
+                        missles.remove(i);
+                    }
+                    for (int j = 0; j < chasers.size()-1; j++) {
+                        if(missles.get(i).intersects(chasers.get(j))){
+                            if(missles.get(i).getBaby()){
+                                if(chasers.get(j).equals(missles.get(i).getMom())){
+
+                                }
+                            }
+                            else{
+                                missles.remove(i);
+                                chasers.remove(j);
+                            }
+
+                        }
+                    }
                 }
                 ship.update();
                 repaint();
