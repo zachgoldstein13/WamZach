@@ -141,18 +141,20 @@ public class Main extends JPanel{
                         health= health-10;
                         missles.remove(i);
                     }
-                    for (int j = 0; j < chasers.size()-1; j++) {
-                        if(missles.get(i).intersects(chasers.get(j))){
-                            if(missles.get(i).getBaby()){
-                                if(chasers.get(j).equals(missles.get(i).getMom())){
+                    else {
+                        for (int j = 0; j < chasers.size(); j++) {
+                            if (missles.get(i).intersects(chasers.get(j))) {
+                                if (missles.get(i).getBaby()) {
+                                    if (chasers.get(j).equals(missles.get(i).getMom())) {
 
+                                    }
                                 }
-                            }
-                            else{
-                                missles.remove(i);
-                                chasers.remove(j);
-                            }
+                                else {
+                                    missles.remove(i);
+                                    chasers.remove(j);
+                                }
 
+                            }
                         }
                     }
                 }
