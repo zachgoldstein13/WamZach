@@ -31,18 +31,18 @@ public class Asteroid extends Sprite {
 
         setDir(spin);
 
-        if (this.getLoc().y==0){
+        if (this.getLoc().y<=0){
             this.setLoc(new Point(this.getLoc().x,800));
         }
 
-        if (this.getLoc().y==800){
+        if (this.getLoc().y>800){
             this.setLoc(new Point(this.getLoc().x,0));
         }
 
-        if (this.getLoc().x==0){
+        if (this.getLoc().x<=0){
             this.setLoc(new Point(1200,this.getLoc().y));
         }
-        if (this.getLoc().x==1200){
+        if (this.getLoc().x>1200){
             this.setLoc(new Point(0,this.getLoc().y));
         }
 

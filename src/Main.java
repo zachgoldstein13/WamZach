@@ -38,9 +38,9 @@ public class Main extends JPanel{
 
 
         asteroids = new ArrayList();
-        for (int r = 0; r < 800; r+=80) {
-            for (int c = 0; c < 1200; c+=120) {
-                asteroids.add(new Asteroid(r,c));
+        for (int x = 0; x < 800; x+=160) {
+            for (int y = 0; y < 1200; y+=240) {
+                asteroids.add(new Asteroid(x,y));
             }
 
         }
