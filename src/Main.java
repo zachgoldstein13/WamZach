@@ -15,7 +15,7 @@ public class Main extends JPanel{
     private String key= " ";
     private String keyType="None";
     private boolean menu=true;
-    private int shipSpeed=10;
+    private int shipSpeed=15;
     private Color black = new Color(0,0,0);
     private Color white = new Color(255,255,255);
     private Color red = new Color(255, 30, 26);
@@ -25,23 +25,26 @@ public class Main extends JPanel{
     private ArrayList<Sprite> asteroids = new ArrayList<Sprite>();
     private ArrayList<Chaser> chasers = new ArrayList<Chaser>();
     private ArrayList<Missle> missles = new ArrayList<Missle>();
+    private ArrayList<Bomb> bombs = new ArrayList<Bomb>();
+    private int bombsleft=3;
+
 
 
 //    private boolean boost;
 
     private int menuLevel=1;
     private int boxLength=200;
-    private boolean w,a,s,d;
+    private boolean w,a,s,d,q;
 
     private Sprite ship = new Starship(500,300,z, false);
 
     public Main() {
 
-
         asteroids = new ArrayList();
-        for (int x = 0; x < 800; x+=160) {
-            for (int y = 0; y < 1200; y+=240) {
+        for (int x = 0; x < 640; x+=160) {
+            for (int y = 0; y < 960; y+=240) {
                 asteroids.add(new Asteroid(x,y));
+
             }
 
         }
@@ -50,21 +53,50 @@ public class Main extends JPanel{
 //        asteroids.add(new Asteroid(50,500, rand));
 //        asteroids.add(new Asteroid(300,300, rand));
        chasers.add(new Chaser(0,0,new Point((int)(Math.random()*1000),(int)(Math.random()*600)),ship));
-        chasers.add(new Chaser(0,0,new Point((int)(Math.random()*1000),(int)(Math.random()*600)),ship));
+//        chasers.add(new Chaser(0,0,new Point((int)(Math.random()*1000),(int)(Math.random()*600)),ship));
 
         timer = new Timer(40, new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
                 if (!menu) {
-                    menuLevel = 0;
-                    ship.update();
+                        int rand =(int)(Math.random()*200);
+                        if(rand==1){
+                            chasers.add(new Chaser(0,(int)(Math.random()*1000),new Point((int)(Math.random()*1000),(int)(Math.random()*600)),ship));
+                        }
 
+                    menuLevel = 0;
+                    if(health<=0){
+                        menuLevel=3;
+                        menu=true;
+                        health=100;
+                    }
+
+
+                    ship.update();
+                    for (Bomb x: bombs){
+                        x.update();
+                        if(x.getExploded()){
+                            for(Sprite b: asteroids){
+                                if(b.intersects(x)){
+                                    asteroids.remove(b.getID());
+                                }
+                            }
+                            for(Sprite b: ships){
+                                if(b.intersects(x)){
+                                    ships.remove(b.getID());
+                                }
+                            }
+                            if(x.getCount()>100){
+                                bombs.remove(x.getID());
+                            }
+                        }
+                    }
                     for (Sprite x: chasers){
                         x.update();
                     }
                     for (Sprite x: chasers){
                         if(x.getSpeed()==0){
-                            int rand= (int)(Math.random()*100);
-                            if(rand<2){
+                            int rand2= (int)(Math.random()*100);
+                            if(rand2<1){
                                 missles.add(new Missle(x.getLoc().x,x.getLoc().y, ship, x));
                             }
                         }
@@ -123,7 +155,7 @@ public class Main extends JPanel{
                 }
                 for (Sprite a: missles) {
                     a.update();
-                }
+                }//movement
 //                for (Sprite b: missles){
 //                    if(b.intersects(ship)){
 //                        health= health-10;
@@ -191,6 +223,13 @@ public class Main extends JPanel{
                         d=true;
                         ship.setLoc(new Point(ship.getLoc().x + shipSpeed, ship.getLoc().y));
                     }
+                    if(code=='q'){
+                        if(bombsleft>0) {
+                            q = true;
+                            bombs.add(new Bomb(ship.getLoc().x, ship.getLoc().y));
+                            bombsleft = bombsleft - 1;
+                        }
+                    }
                 }
             }
 
@@ -200,7 +239,6 @@ public class Main extends JPanel{
 
             public void keyReleased(KeyEvent keyEvent) {
                 int code = keyEvent.getKeyChar();
-                if (!menu) {
                     if (code == 'w') {
                         w=false;
                     }
@@ -213,7 +251,10 @@ public class Main extends JPanel{
                     if (code == 'd') {
                         d=false;
                     }
-                }
+                    if(code=='q'){
+                        q=false;
+                    }
+
 
             }
         });
@@ -231,6 +272,8 @@ public class Main extends JPanel{
                     //play button
                     if (mouseEvent.getX() > 455 && mouseEvent.getX() < 580 &&
                             mouseEvent.getY() > 302 && mouseEvent.getY() < 365) {
+                        health=100;
+                        ship.setLoc(new Point(500,600));
                         menu = false;
                     }
                 }
@@ -316,6 +359,21 @@ public class Main extends JPanel{
 
 
 
+                } else if (menuLevel == 3) {
+                    if (mouseEvent.getX() > 455 && mouseEvent.getX() < 850 &&
+                            mouseEvent.getY() > 195 && mouseEvent.getY() < 260) {
+                        menuLevel = 2;
+                    }
+
+                    //play button
+                    if (mouseEvent.getX() > 455 && mouseEvent.getX() < 580 &&
+                            mouseEvent.getY() > 302 && mouseEvent.getY() < 365) {
+                        health=100;
+                        ship.setLoc(new Point(500,600));
+                        menu = false;
+                    }
+
+
                 }
 
 
@@ -355,8 +413,6 @@ public class Main extends JPanel{
             g2.drawRect(600,20,450,60);
             g2.setColor(red);
             g2.fillRect(600,20,(int)((health)*4.5),60);
-            g2.setColor(Color.black);
-            
             for (Sprite x: chasers){
                 x.draw(g2);
             }
@@ -366,6 +422,9 @@ public class Main extends JPanel{
             }
             for (Sprite a: missles) {
                 a.draw(g2);
+            }
+            for (Sprite x: bombs){
+                x.draw(g2);
             }
         }
         if(menu){
@@ -428,6 +487,18 @@ public class Main extends JPanel{
 
 
                 }
+
+            }
+            if (menuLevel==3){
+                g2.setColor(black);
+                g2.fillRect(0, 0, 1200, 800);
+                g2.setColor(Color.white);
+                g2.setFont(new Font("Comic Sans MS", Font.BOLD, 68));
+                g2.drawString("You're Dead", 450, 150);
+                g2.drawString("Play", 450, 350);
+                g2.drawString("Select Ship", 450, 250);
+
+
             }
         }
 
