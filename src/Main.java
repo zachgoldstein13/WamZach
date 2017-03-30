@@ -17,12 +17,14 @@ public class Main extends JPanel{
     private boolean menu=true;
     private int shipSpeed=15;
     private int score=0;
+    private int score2=0;
     private Color black = new Color(0,0,0);
     private Color white = new Color(255,255,255);
     private Color red = new Color(255, 30, 26);
     private int z=0;
     private double chance=1;
     private double health=100;
+    private int total;
     private ArrayList<Sprite> ships = new ArrayList<Sprite>();
     private ArrayList<Sprite> asteroids = new ArrayList<Sprite>();
     private ArrayList<Chaser> chasers = new ArrayList<Chaser>();
@@ -64,8 +66,8 @@ public class Main extends JPanel{
         timer = new Timer(40, new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
                 frameCount++;
+                score=(int)(frameCount);
                 chance=frameCount/500;
-                System.out.println(chance);
                 if (!menu) {
                         int rand =(int)(Math.random()*300);
                         if(rand<chance){
@@ -76,6 +78,11 @@ public class Main extends JPanel{
                         }
                         if (rand==101){
                             healths.add(new HealthPack((int)(Math.random()*1000),(int)(Math.random()*600)));
+                        }
+                        if(asteroids.size()<10){
+                            if(rand==102){
+                                asteroids.add(new Asteroid((int)(Math.random()*1000),(int)(Math.random()*600)));
+                            }
                         }
                         //Random int generator
 
@@ -109,6 +116,7 @@ public class Main extends JPanel{
                             for (int i = 0; i < chasers.size(); i++) {
                                 if(chasers.get(i).intersects(x)){
                                     chasers.remove(i);
+                                    score2+=100;
                                 }
                             }
                             for (int i = 0; i < missles.size(); i++) {
@@ -237,6 +245,7 @@ public class Main extends JPanel{
                                 else {
                                     missles.remove(i);
                                     chasers.remove(j);
+                                    score2+=200;
                                 }
 
                             }
@@ -251,6 +260,7 @@ public class Main extends JPanel{
                 }
                 ship.update();
                 repaint();
+                total=score+score2;
             }
         });
 
@@ -472,6 +482,7 @@ public class Main extends JPanel{
             g2.setColor(Color.white);
             g2.drawString("Bombs",100,50);
             g2.drawString(" "+ bombsleft,100,150);
+            g2.drawString("Score:"+ total,300,50);
             g2.drawRect(600,20,450,60);
             g2.setColor(red);
             g2.fillRect(600,20,(int)((health)*4.5),60);
@@ -565,6 +576,7 @@ public class Main extends JPanel{
                 g2.drawString("You're Dead", 450, 150);
                 g2.drawString("Play", 450, 350);
                 g2.drawString("Select Ship", 450, 250);
+                g2.drawString("Total Score:"+ total, 450, 350);
 
 
             }
