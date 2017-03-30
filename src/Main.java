@@ -27,6 +27,7 @@ public class Main extends JPanel{
     private ArrayList<Missle> missles = new ArrayList<Missle>();
     private ArrayList<Bomb> bombs = new ArrayList<Bomb>();
     private int bombsleft=3;
+    private int count2,count3;
 
 
 
@@ -75,21 +76,27 @@ public class Main extends JPanel{
                     for (Bomb x: bombs){
                         x.update();
                         if(x.getExploded()){
-                            for(Sprite b: asteroids){
-                                if(b.intersects(x)){
-                                    asteroids.remove(b.getID());
+                            for (int i = 0; i < asteroids.size(); i++) {
+                                if(asteroids.get(i).intersects(x)){
+                                    asteroids.remove(i);
                                 }
                             }
-                            for(Sprite b: ships){
-                                if(b.intersects(x)){
-                                    ships.remove(b.getID());
+                            for (int i = 0; i < ships.size(); i++) {
+                                if(ships.get(i).intersects(x)){
+                                    ships.remove(i);
                                 }
                             }
-                            if(x.getCount()>100){
-                                bombs.remove(x.getID());
-                            }
+
+
                         }
                     }
+                    for (int i = 0; i < bombs.size(); i++) {
+                        if(bombs.get(i).alive()){
+                            bombs.remove(i);
+                        }
+
+                    }//bombs
+
                     for (Sprite x: chasers){
                         x.update();
                     }

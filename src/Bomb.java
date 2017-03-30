@@ -21,7 +21,8 @@ public class Bomb extends Sprite {
     public boolean getExploded(){
         return exploded;
     }
-    public int getCount(){
-        return count;
+    public boolean alive(){
+        return count>100;
+
     }
 }
