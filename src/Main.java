@@ -16,10 +16,12 @@ public class Main extends JPanel{
     private String keyType="None";
     private boolean menu=true;
     private int shipSpeed=15;
+    private int score=0;
     private Color black = new Color(0,0,0);
     private Color white = new Color(255,255,255);
     private Color red = new Color(255, 30, 26);
     private int z=0;
+    private double chance=1;
     private double health=100;
     private ArrayList<Sprite> ships = new ArrayList<Sprite>();
     private ArrayList<Sprite> asteroids = new ArrayList<Sprite>();
@@ -29,7 +31,8 @@ public class Main extends JPanel{
     private ArrayList<Ammo> ammunition = new ArrayList<Ammo>();
     private ArrayList<HealthPack> healths = new ArrayList<HealthPack>();
     private int bombsleft=3;
-    private int count2,frameCount;
+    private int count2;
+    private double frameCount=0;
 
 
 
@@ -61,15 +64,17 @@ public class Main extends JPanel{
         timer = new Timer(40, new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
                 frameCount++;
+                chance=frameCount/500;
+                System.out.println(chance);
                 if (!menu) {
-                        int rand =(int)(Math.random()*200);
-                        if(rand==1){
+                        int rand =(int)(Math.random()*300);
+                        if(rand<chance){
                             chasers.add(new Chaser(0,(int)(Math.random()*1000),new Point((int)(Math.random()*1000),(int)(Math.random()*600)),ship));
                         }
-                        if (rand==2){
+                        if (rand==100){
                             ammunition.add(new Ammo((int)(Math.random()*1000),(int)(Math.random()*600)));
                         }
-                        if (rand==3){
+                        if (rand==101){
                             healths.add(new HealthPack((int)(Math.random()*1000),(int)(Math.random()*600)));
                         }
                         //Random int generator
@@ -85,12 +90,12 @@ public class Main extends JPanel{
                             healths.remove(i);
                         }
                         else if(healths.get(i).intersects(ship)){
-                            health+=20;
+                            if(health<100) {
+                                health += 20;
+                            }
                             healths.remove(i);
                         }
                     }
-
-
 
                     ship.update();
                     for (Bomb x: bombs){
@@ -101,9 +106,9 @@ public class Main extends JPanel{
                                     asteroids.remove(i);
                                 }
                             }
-                            for (int i = 0; i < ships.size(); i++) {
-                                if(ships.get(i).intersects(x)){
-                                    ships.remove(i);
+                            for (int i = 0; i < chasers.size(); i++) {
+                                if(chasers.get(i).intersects(x)){
+                                    chasers.remove(i);
                                 }
                             }
                             for (int i = 0; i < missles.size(); i++) {
@@ -418,7 +423,13 @@ public class Main extends JPanel{
                             mouseEvent.getY() > 302 && mouseEvent.getY() < 365) {
                         health=100;
                         ship.setLoc(new Point(500,600));
+                        frameCount=0;
+                        bombsleft=3;
                         menu = false;
+                        bombs.clear();
+                        ammunition.clear();
+                        chasers.clear();
+                        missles.clear();
                     }
 
 
