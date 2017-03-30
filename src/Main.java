@@ -26,8 +26,9 @@ public class Main extends JPanel{
     private ArrayList<Chaser> chasers = new ArrayList<Chaser>();
     private ArrayList<Missle> missles = new ArrayList<Missle>();
     private ArrayList<Bomb> bombs = new ArrayList<Bomb>();
+    private ArrayList<Ammo> ammunition = new ArrayList<Ammo>();
     private int bombsleft=3;
-    private int count2,count3;
+    private int count2,frameCount;
 
 
 
@@ -58,11 +59,15 @@ public class Main extends JPanel{
 
         timer = new Timer(40, new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
+                frameCount++;
                 if (!menu) {
                         int rand =(int)(Math.random()*200);
                         if(rand==1){
                             chasers.add(new Chaser(0,(int)(Math.random()*1000),new Point((int)(Math.random()*1000),(int)(Math.random()*600)),ship));
                         }
+                        if (rand==2){
+                            ammunition.add(new Ammo((int)(Math.random()*1000),(int)(Math.random()*600)));
+                        }//Random int generator
 
                     menuLevel = 0;
                     if(health<=0){
@@ -70,6 +75,7 @@ public class Main extends JPanel{
                         menu=true;
                         health=100;
                     }
+
 
 
                     ship.update();
@@ -100,6 +106,20 @@ public class Main extends JPanel{
                     for (Sprite x: chasers){
                         x.update();
                     }
+                    for (Sprite x: ammunition){
+                        x.update();
+
+                    }
+                    for (int i = 0; i <ammunition.size() ; i++) {
+                        if(ammunition.get(i).getDead()){
+                            ammunition.remove(i);
+                        }
+                        if(ammunition.get(i).intersects(ship)){
+                            bombsleft++;
+                            ammunition.remove(i);
+                        }
+                    }//Ammo
+
                     for (Sprite x: chasers){
                         if(x.getSpeed()==0){
                             int rand2= (int)(Math.random()*100);
@@ -416,7 +436,10 @@ public class Main extends JPanel{
             //can be g2.fillRect(0,0,1000,600);
             g2.fillRect(0,0,1200,800);
             ship.draw(g2);
+            g2.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
             g2.setColor(Color.white);
+            g2.drawString("Bombs",100,50);
+            g2.drawString(" "+ bombsleft,100,150);
             g2.drawRect(600,20,450,60);
             g2.setColor(red);
             g2.fillRect(600,20,(int)((health)*4.5),60);
@@ -431,6 +454,9 @@ public class Main extends JPanel{
                 a.draw(g2);
             }
             for (Sprite x: bombs){
+                x.draw(g2);
+            }
+            for (Sprite x: ammunition){
                 x.draw(g2);
             }
         }
