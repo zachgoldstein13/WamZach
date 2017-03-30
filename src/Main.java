@@ -27,6 +27,7 @@ public class Main extends JPanel{
     private ArrayList<Missle> missles = new ArrayList<Missle>();
     private ArrayList<Bomb> bombs = new ArrayList<Bomb>();
     private ArrayList<Ammo> ammunition = new ArrayList<Ammo>();
+    private ArrayList<HealthPack> healths = new ArrayList<HealthPack>();
     private int bombsleft=3;
     private int count2,frameCount;
 
@@ -67,13 +68,26 @@ public class Main extends JPanel{
                         }
                         if (rand==2){
                             ammunition.add(new Ammo((int)(Math.random()*1000),(int)(Math.random()*600)));
-                        }//Random int generator
+                        }
+                        if (rand==3){
+                            healths.add(new HealthPack((int)(Math.random()*1000),(int)(Math.random()*600)));
+                        }
+                        //Random int generator
 
                     menuLevel = 0;
                     if(health<=0){
                         menuLevel=3;
                         menu=true;
                         health=100;
+                    }
+                    for (int i = 0; i <healths.size() ; i++) {
+                        if(healths.get(i).getDead()){
+                            healths.remove(i);
+                        }
+                        else if(healths.get(i).intersects(ship)){
+                            health+=20;
+                            healths.remove(i);
+                        }
                     }
 
 
@@ -92,7 +106,11 @@ public class Main extends JPanel{
                                     ships.remove(i);
                                 }
                             }
-
+                            for (int i = 0; i < missles.size(); i++) {
+                                if(missles.get(i).intersects(x)){
+                                    missles.remove(i);
+                                }
+                            }
 
                         }
                     }
@@ -106,6 +124,9 @@ public class Main extends JPanel{
                     for (Sprite x: chasers){
                         x.update();
                     }
+                    for (Sprite x: healths){
+                        x.update();
+                    }
                     for (Sprite x: ammunition){
                         x.update();
 
@@ -114,7 +135,7 @@ public class Main extends JPanel{
                         if(ammunition.get(i).getDead()){
                             ammunition.remove(i);
                         }
-                        if(ammunition.get(i).intersects(ship)){
+                        else if(ammunition.get(i).intersects(ship)){
                             bombsleft++;
                             ammunition.remove(i);
                         }
@@ -457,6 +478,9 @@ public class Main extends JPanel{
                 x.draw(g2);
             }
             for (Sprite x: ammunition){
+                x.draw(g2);
+            }
+            for (Sprite x: healths){
                 x.draw(g2);
             }
         }
