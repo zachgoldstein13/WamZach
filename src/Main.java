@@ -32,6 +32,8 @@ public class Main extends JPanel{
     private ArrayList<Bomb> bombs = new ArrayList<Bomb>();
     private ArrayList<Ammo> ammunition = new ArrayList<Ammo>();
     private ArrayList<HealthPack> healths = new ArrayList<HealthPack>();
+    private ArrayList<Boost> boosts = new ArrayList<Boost>();
+
     private int bombsleft=3;
     private int count2;
     private double frameCount=0;
@@ -65,10 +67,11 @@ public class Main extends JPanel{
 
         timer = new Timer(40, new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                frameCount++;
+
                 score=(int)(frameCount);
                 chance=frameCount/500;
                 if (!menu) {
+                    frameCount++;
                         int rand =(int)(Math.random()*300);
                         if(rand<chance){
                             chasers.add(new Chaser(0,(int)(Math.random()*1000),new Point((int)(Math.random()*1000),(int)(Math.random()*600)),ship));
@@ -440,6 +443,12 @@ public class Main extends JPanel{
                         ammunition.clear();
                         chasers.clear();
                         missles.clear();
+                        for (int x = 0; x < 640; x+=160) {
+                            for (int y = 0; y < 960; y+=240) {
+                                asteroids.add(new Asteroid(x,y));
+                            }
+
+                        }
                     }
 
 
@@ -576,7 +585,7 @@ public class Main extends JPanel{
                 g2.drawString("You're Dead", 450, 150);
                 g2.drawString("Play", 450, 350);
                 g2.drawString("Select Ship", 450, 250);
-                g2.drawString("Total Score:"+ total, 450, 350);
+                g2.drawString("Total Score:"+ total, 450, 450);
 
 
             }
