@@ -46,7 +46,7 @@ public class Main extends JPanel{
     private int boxLength=200;
     private boolean w,a,s,d,q;
 
-    private Sprite ship = new Starship(500,300,z, false);
+    private Starship ship = new Starship(500,300,z, false);
 
     public Main() {
 
@@ -156,19 +156,19 @@ public class Main extends JPanel{
                         }
                         else if(boosts.get(i).intersects(ship)){
                             speed=true;
+                            ship.setF(true);
                             boosts.remove(i);
 
                         }
                     }
 
                     if (speed){
-                        ship = new Starship(ship.getLoc().x,ship.getLoc().y,z,true);
-                        ship.update();
+
                         countSpeed++;
                         shipSpeed=21;
-                        if(countSpeed==50){
+                        if(countSpeed%50==0){
+                            ship.setF(false);
                             speed=false;
-                            ship = new Starship(ship.getLoc().x,ship.getLoc().y,z,false);
                             shipSpeed=15;
                         }
                     }

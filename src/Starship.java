@@ -20,6 +20,14 @@ public class Starship extends Sprite {
         //takes in user imputed ship and sets it to the correct one
 
         //sets ship one as default if not picked otherwise
+
+
+
+
+
+
+    }
+    public void update(){
         if(zs==0||zs==1){
             if (fo==true){
                 this.setPic("SF1.png", NORTH);
@@ -77,14 +85,6 @@ public class Starship extends Sprite {
             }
         }
 
-
-
-
-
-    }
-    public void update(){
-
-
     }
 
     public int getZs() {
@@ -102,4 +102,9 @@ public class Starship extends Sprite {
         super.setDir(newDir);
 
     }
+    public void setF(boolean newF){
+        fo=newF;
+
+    }
 }
+
