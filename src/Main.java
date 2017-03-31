@@ -156,16 +156,22 @@ public class Main extends JPanel{
                         }
                         else if(boosts.get(i).intersects(ship)){
                             speed=true;
+
+
+
                             boosts.remove(i);
 
                         }
                     }
 
                     if (speed){
+                        ship = new Starship(ship.getLoc().x,ship.getLoc().y,z,true);
+                        ship.update();
                         countSpeed++;
                         shipSpeed=21;
                         if(countSpeed==50){
                             speed=false;
+                            ship = new Starship(ship.getLoc().x,ship.getLoc().y,z,false);
                             shipSpeed=15;
                         }
                     }
