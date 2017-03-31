@@ -287,6 +287,7 @@ public class Main extends JPanel{
                         health= health - 10;
                     }
                 }
+
                 ship.update();
                 repaint();
                 total=score+score2;
@@ -377,6 +378,7 @@ public class Main extends JPanel{
                         ship.setLoc(new Point(500,600));
                         menu = false;
                     }
+
                 }
 
 
@@ -572,11 +574,16 @@ public class Main extends JPanel{
             if(menuLevel==1) {
                 g2.setColor(black);
                 g2.fillRect(0, 0, 1200, 800);
+                for (Sprite a: asteroids) {
+                    a.draw(g2);
+                }
                 g2.setColor(Color.white);
                 g2.setFont(new Font("Times New Roman", Font.BOLD, 68));
                 g2.drawString("Dodge", 450, 150);
                 g2.drawString("Play", 450, 350);
                 g2.drawString("Select Ship", 450, 250);
+
+
             }
 
             //ship selection screen
