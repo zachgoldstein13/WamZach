@@ -40,9 +40,7 @@ public class Main extends JPanel{
     private int count2;
     private double frameCount=0;
 
-
-
-//    private boolean boost;
+    private boolean boost=false;
 
     private int menuLevel=1;
     private int boxLength=200;
@@ -264,6 +262,7 @@ public class Main extends JPanel{
                     if(ship.intersects(missles.get(i))){
                         health= health-10;
                         missles.remove(i);
+                        i--;
                     }
                     else {
                         for (int j = 0; j < chasers.size(); j++) {
@@ -275,6 +274,7 @@ public class Main extends JPanel{
                                     missles.remove(i);
                                     chasers.remove(j);
                                     score2+=200;
+                                    j = chasers.size();
                                 }
 
                             }
@@ -315,6 +315,11 @@ public class Main extends JPanel{
                         d=true;
                         ship.setLoc(new Point(ship.getLoc().x + shipSpeed, ship.getLoc().y));
                     }
+                    if (code == ' ') {
+                        boost =true;
+                        System.out.println(boost);
+
+                    }
                     if(code=='q'){
                         if(bombsleft>0) {
                             q = true;
@@ -347,8 +352,12 @@ public class Main extends JPanel{
                         q=false;
                     }
 
+                    if (keyEvent.getKeyCode() == KeyEvent.VK_SPACE){
+                        boost=false;
+                    }
+                }
 
-            }
+
         });
         addMouseListener(new MouseListener() {
             public void mouseClicked(MouseEvent mouseEvent) {
