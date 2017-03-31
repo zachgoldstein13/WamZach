@@ -69,7 +69,7 @@ public class Main extends JPanel{
             public void actionPerformed(ActionEvent actionEvent) {
 
                 score=(int)(frameCount);
-                chance=frameCount/500;
+                chance=(frameCount/500)+1;
                 if (!menu) {
                     frameCount++;
                         int rand =(int)(Math.random()*300);
@@ -82,7 +82,7 @@ public class Main extends JPanel{
                         if (rand==101){
                             healths.add(new HealthPack((int)(Math.random()*1000),(int)(Math.random()*600)));
                         }
-                        if(asteroids.size()<15){
+                        if(asteroids.size()<10){
                             if(rand==102){
                                 asteroids.add(new Asteroid((int)(Math.random()*1000),(int)(Math.random()*600)));
                             }
@@ -156,9 +156,6 @@ public class Main extends JPanel{
                         }
                         else if(boosts.get(i).intersects(ship)){
                             speed=true;
-
-
-
                             boosts.remove(i);
 
                         }
@@ -358,6 +355,22 @@ public class Main extends JPanel{
                     if(code=='q'){
                         q=false;
                     }
+                if (code == 'W') {
+                    w=false;
+                }
+                if (code == 'S') {
+                    s=false;
+                }
+                if (code == 'A') {
+                    a=false;
+                }
+                if (code == 'D') {
+                    d=false;
+                }
+                if(code=='Q'){
+                    q=false;
+                }
+
 
                     if (keyEvent.getKeyCode() == KeyEvent.VK_SPACE){
                         boost=false;
@@ -408,6 +421,7 @@ public class Main extends JPanel{
                         ammunition.clear();
                         chasers.clear();
                         missles.clear();
+                        ship.setLoc(new Point(500,600));
                         for (int x = 0; x < 640; x+=160) {
                             for (int y = 0; y < 960; y+=240) {
                                 asteroids.add(new Asteroid(x,y));
@@ -501,6 +515,8 @@ public class Main extends JPanel{
                         ammunition.clear();
                         chasers.clear();
                         missles.clear();
+                        ship.setLoc(new Point(500,600));
+
                         for (int x = 0; x < 640; x+=160) {
                             for (int y = 0; y < 960; y+=240) {
                                 asteroids.add(new Asteroid(x,y));

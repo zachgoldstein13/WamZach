@@ -13,7 +13,7 @@ public class Bomb extends Sprite {
     }
     public void update(){
         count++;
-        if(count>35){
+        if(count>20){
             exploded = true;
             this.setPic("Explosion.png",NORTH);
         }
@@ -22,7 +22,7 @@ public class Bomb extends Sprite {
         return exploded;
     }
     public boolean alive(){
-        return count>65;
+        return count>50;
 
     }
 }
