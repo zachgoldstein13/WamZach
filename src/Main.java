@@ -22,6 +22,8 @@ public class Main extends JPanel{
     private Color white = new Color(255,255,255);
     private Color red = new Color(255, 30, 26);
     private int z=0;
+    private boolean speed;
+    private int countSpeed;
     private double chance=1;
     private double health=100;
     private int total;
@@ -82,11 +84,14 @@ public class Main extends JPanel{
                         if (rand==101){
                             healths.add(new HealthPack((int)(Math.random()*1000),(int)(Math.random()*600)));
                         }
-                        if(asteroids.size()<10){
+                        if(asteroids.size()<15){
                             if(rand==102){
                                 asteroids.add(new Asteroid((int)(Math.random()*1000),(int)(Math.random()*600)));
                             }
                         }
+                    if (rand==103){
+                        boosts.add(new Boost((int)(Math.random()*1000),(int)(Math.random()*600)));
+                    }
                         //Random int generator
 
                     menuLevel = 0;
@@ -142,6 +147,29 @@ public class Main extends JPanel{
                     }
                     for (Sprite x: healths){
                         x.update();
+                    }
+                    for (Sprite x: boosts){
+                        x.update();
+
+                    }
+                    for (int i = 0; i < boosts.size(); i++) {
+                        if(boosts.get(i).getDead()){
+                            boosts.remove(i);
+                        }
+                        else if(boosts.get(i).intersects(ship)){
+                            speed=true;
+                            boosts.remove(i);
+
+                        }
+                    }
+
+                    if (speed){
+                        countSpeed++;
+                        shipSpeed=21;
+                        if(countSpeed==50){
+                            speed=false;
+                            shipSpeed=15;
+                        }
                     }
                     for (Sprite x: ammunition){
                         x.update();
@@ -241,9 +269,7 @@ public class Main extends JPanel{
                         for (int j = 0; j < chasers.size(); j++) {
                             if (missles.get(i).intersects(chasers.get(j))) {
                                 if (missles.get(i).getBaby()) {
-                                    if (chasers.get(j).equals(missles.get(i).getMom())) {
 
-                                    }
                                 }
                                 else {
                                     missles.remove(i);
@@ -356,6 +382,21 @@ public class Main extends JPanel{
                     //play now button
                     if (mouseEvent.getX() > 650 && mouseEvent.getX() < 870 &&
                             mouseEvent.getY() > 12 && mouseEvent.getY() < 52) {
+                        health=100;
+                        ship.setLoc(new Point(500,600));
+                        frameCount=0;
+                        bombsleft=3;
+                        menu = false;
+                        bombs.clear();
+                        ammunition.clear();
+                        chasers.clear();
+                        missles.clear();
+                        for (int x = 0; x < 640; x+=160) {
+                            for (int y = 0; y < 960; y+=240) {
+                                asteroids.add(new Asteroid(x,y));
+                            }
+
+                        }
                         menu = false;
                     }
 
@@ -487,7 +528,7 @@ public class Main extends JPanel{
             //can be g2.fillRect(0,0,1000,600);
             g2.fillRect(0,0,1200,800);
             ship.draw(g2);
-            g2.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
+            g2.setFont(new Font("Times New Roman", Font.BOLD, 50));
             g2.setColor(Color.white);
             g2.drawString("Bombs",100,50);
             g2.drawString(" "+ bombsleft,100,150);
@@ -514,13 +555,16 @@ public class Main extends JPanel{
             for (Sprite x: healths){
                 x.draw(g2);
             }
+            for (Sprite x: boosts){
+                x.draw(g2);
+            }
         }
         if(menu){
             if(menuLevel==1) {
                 g2.setColor(black);
                 g2.fillRect(0, 0, 1200, 800);
                 g2.setColor(Color.white);
-                g2.setFont(new Font("Comic Sans MS", Font.BOLD, 68));
+                g2.setFont(new Font("Times New Roman", Font.BOLD, 68));
                 g2.drawString("Dodge", 450, 150);
                 g2.drawString("Play", 450, 350);
                 g2.drawString("Select Ship", 450, 250);
@@ -581,7 +625,7 @@ public class Main extends JPanel{
                 g2.setColor(black);
                 g2.fillRect(0, 0, 1200, 800);
                 g2.setColor(Color.white);
-                g2.setFont(new Font("Comic Sans MS", Font.BOLD, 68));
+                g2.setFont(new Font("Times New Roman", Font.BOLD, 68));
                 g2.drawString("You're Dead", 450, 150);
                 g2.drawString("Play", 450, 350);
                 g2.drawString("Select Ship", 450, 250);

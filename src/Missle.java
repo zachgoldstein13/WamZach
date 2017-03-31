@@ -20,7 +20,7 @@ public class Missle extends Sprite {
         this.setDir(dir2);
         super.update();
         count++;
-        if (count>50){
+        if (count>20){
             baby=false;
         }
     }
