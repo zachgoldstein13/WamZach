@@ -1,4 +1,6 @@
 import javax.swing.*;
+import java.awt.image.BufferedImage;
+import java.nio.Buffer;
 
 /**
  * Created by samuel_wolff on 3/29/17.
@@ -13,6 +15,7 @@ public class Bomb extends Sprite {
     }
     public void update(){
         count++;
+
         if(count>20){
             exploded = true;
             this.setPic("Explosion.png",NORTH);

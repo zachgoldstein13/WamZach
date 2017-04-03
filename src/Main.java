@@ -644,20 +644,22 @@ public class Main extends JPanel{
                     //need to make it more centered and
                     //we have to implement the clicking that changes it
                     //the ship png is a varible called z
-                    ships = new ArrayList();
 
 
                     ships.add(new Starship(185+boxLength*i,225,i+1, true));
                     ships.add(new Starship(185+boxLength*i,425,(i+5),true));
 
-                    for (Sprite s: ships) {
-                        s.draw(g2);
-                    }
+
 
 
 
                 }
-
+                for (Sprite s: ships) {
+                    s.update();
+                }
+                for (Sprite s: ships) {
+                    s.draw(g2);
+                }
             }
             if (menuLevel==3){
                 g2.setColor(black);
