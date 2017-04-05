@@ -1,8 +1,13 @@
 import com.sun.org.apache.xpath.internal.functions.FuncFalse;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.io.File;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.nio.Buffer;
 import java.util.ArrayList;
 
 /**
@@ -27,6 +32,7 @@ public class Main extends JPanel{
     private double chance=1;
     private double health=100;
     private int total;
+    private BufferedImage headstone;
     private ArrayList<Sprite> ships = new ArrayList<Sprite>();
     private ArrayList<Sprite> asteroids = new ArrayList<Sprite>();
     private ArrayList<Chaser> chasers = new ArrayList<Chaser>();
@@ -49,7 +55,7 @@ public class Main extends JPanel{
     private Starship ship = new Starship(500,300,z, false);
 
     public Main() {
-
+//        headstone = ImageIO.read(new File("Res/Headstone.png,"));
         asteroids = new ArrayList();
         for (int x = 0; x < 640; x+=160) {
             for (int y = 0; y < 960; y+=240) {
@@ -249,18 +255,6 @@ public class Main extends JPanel{
                 for (Sprite a: missles) {
                     a.update();
                 }//movement
-//                for (Sprite b: missles){
-//                    if(b.intersects(ship)){
-//                        health= health-10;
-//                        missles.remove(b.getID());
-//                    }
-//                    for (Sprite a: chasers){
-//                        if(b.intersects(a)){
-//                            missles.remove(b.getID());
-//                            chasers.remove(a.getID());
-//                        }
-//                    }
-//                }
                 for (int i = 0; i < missles.size(); i++) {
                     if(ship.intersects(missles.get(i))){
                         health= health-10;
